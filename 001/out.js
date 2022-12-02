@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function compute(string) {
+function computeCaloriesForEachElf(string) {
   const elfMeals = string.split('\n\n');
 
   const totals = [];
@@ -12,13 +12,22 @@ function compute(string) {
     totals.push(total);
   }
 
-  return Math.max(...totals);
+  return totals;
 }
 
+const answerPartA = (totals) => Math.max(...totals);
+
+const answerPartB = (totals) =>
+  totals
+    .sort((a, b) => a - b)
+    .slice(-3)
+    .reduce((a, b) => a + b, 0);
+
 try {
-  const data = fs.readFileSync(`${__dirname}/in.txt`, 'utf8');
-  const num = compute(data);
-  console.log(`The answer is ${num}`);
+  const rawData = fs.readFileSync(`${__dirname}/in.txt`, 'utf8');
+  const elfCalories = computeCaloriesForEachElf(rawData);
+  console.log(`Answer A is ${answerPartA(elfCalories)}`);
+  console.log(`Answer B is ${answerPartB(elfCalories)}`);
 } catch (err) {
   console.error(err);
 }
